@@ -1,7 +1,7 @@
-import { dirname, relative } from 'node:path'
-import { URL, fileURLToPath } from 'node:url'
 import { crx } from '@crxjs/vite-plugin'
 import vue from '@vitejs/plugin-vue'
+import { dirname, relative } from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -51,7 +51,7 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', 'vue-router', 'vue/macros', '@vueuse/core'],
       dts: 'src/auto-imports.d.ts',
-      dirs: ['src/composables/'],
+      dirs: ['src/composables/', 'src/stores/', 'src/utils/'],
     }),
 
     // https://github.com/antfu/unplugin-vue-components

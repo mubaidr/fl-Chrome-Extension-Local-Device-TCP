@@ -1,6 +1,0 @@
-The goal is to:
-
-1) open TCP communication
-2) send array of commands generated from us
-3) receive array of responses from each command
-4) close connection
