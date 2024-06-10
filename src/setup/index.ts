@@ -25,7 +25,7 @@ router.beforeEach((to, _from, next) => {
   if (to.path === '/' || to.path === '/setup') {
     if (setupType === 'install') {
       return next('/setup/install')
-    } else if (setupType === 'update') {
+    } else {
       return next('/setup/update')
     }
   }

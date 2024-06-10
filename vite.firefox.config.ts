@@ -1,13 +1,14 @@
-import { crx } from '@crxjs/vite-plugin'
-import vue from '@vitejs/plugin-vue'
 import { dirname, relative } from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
+import { crx } from '@crxjs/vite-plugin'
+import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Pages from 'vite-plugin-pages'
+import { defineViteConfig as define } from './define.config'
 import manifest from './manifest.firefox.config'
 
 // https://vitejs.dev/config/
@@ -38,6 +39,10 @@ export default defineConfig({
           baseRoute: '',
         },
         {
+          dir: 'src/setup/pages',
+          baseRoute: 'setup',
+        },
+        {
           dir: 'src/popup/pages',
           baseRoute: 'popup',
         },
@@ -50,7 +55,7 @@ export default defineConfig({
 
     AutoImport({
       imports: ['vue', 'vue-router', 'vue/macros', '@vueuse/core'],
-      dts: 'src/auto-imports.d.ts',
+      dts: 'src/types/auto-imports.d.ts',
       dirs: ['src/composables/', 'src/stores/', 'src/utils/'],
     }),
 
@@ -58,7 +63,7 @@ export default defineConfig({
     Components({
       dirs: ['src/components'],
       // generate `components.d.ts` for ts support with Volar
-      dts: 'src/components.d.ts',
+      dts: 'src/types/components.d.ts',
       resolvers: [
         // auto import icons
         IconsResolver({
@@ -112,4 +117,5 @@ export default defineConfig({
     exclude: ['vue-demi'],
   },
   assetsInclude: ['src/assets/*/**'],
+  define,
 })
