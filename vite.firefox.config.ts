@@ -1,7 +1,7 @@
-import { dirname, relative } from 'node:path'
-import { URL, fileURLToPath } from 'node:url'
 import { crx } from '@crxjs/vite-plugin'
 import vue from '@vitejs/plugin-vue'
+import { dirname, relative } from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -98,6 +98,7 @@ export default defineConfig({
       input: {
         iframe: 'src/content-script/iframe/index.html',
         popup: 'src/popup/index.html',
+        setup: 'src/setup/index.html',
       },
     },
     minify: 'terser',
