@@ -7,9 +7,9 @@
 
 # Steps
 
-- add logic to load data from browser page into extension
-- add event to send message from web page to extension with data (we need to decide this one too)
-- some basic config page for future usage
+- [x] add logic to load data from browser page into extension (window.currentPrinters)
+- [x] add event to send message from web page to extension with data (we need to decide this one too)
+- [x] some basic config page for future usage
 - test open connection and data transfer with dummy TCP server
 
 # Printer/ Config Info:
