@@ -11,6 +11,13 @@
 - [x] add event to send message from web page to extension with data (we need to decide this one too)
 - [x] some basic config page for future usage
 - test open connection and data transfer with dummy TCP server
+  - [x] webpage prepares data/ commands for printer
+  - [x] webpage send this data (command + printer id) using `window.postMessage`
+  - [x] chrome extension listens for messages
+  - [x] chrome extension read printer id, commands. Printer id will be used to get IP address/ protocol info from printer config data.
+  - chrome extension then sends these commands to printer and collect results
+  - [x] chrome extension sends message to web page (similarly as mentioned in step 1)
+  - [x] webpage needs to listen to messages from extension and collect results back
 
 # Printer/ Config Info:
 
