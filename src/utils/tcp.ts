@@ -2,7 +2,18 @@ import type { PrinterObject } from '@/types'
 
 export {}
 
-export async function sendTcpCommands(
+async function connectToTcpServer() {
+  // chrome.sockets.tcp.create({}, function (createInfo) {
+  //   chrome.sockets.tcp.connect(
+  //     createInfo.socketId,
+  //     IP,
+  //     PORT,
+  //     onConnectedCallback
+  //   )
+  // })
+}
+
+export async function sendCommandsToTcpServer(
   printer: PrinterObject,
   commands: Array<string>
 ) {

@@ -19,6 +19,7 @@ export default defineManifest(async (env) => ({
   // semver is OK in "version_name"
   version_name: version,
   manifest_version: 3,
+  minimum_chrome_version: '116',
   // key: '',
   action: {
     default_popup: 'src/popup/index.html',

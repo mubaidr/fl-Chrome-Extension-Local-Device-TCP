@@ -94,6 +94,7 @@ declare global {
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
+  const sendCommandsToTcpServer: typeof import('../utils/tcp')['sendCommandsToTcpServer']
   const sendMessage: typeof import('webext-bridge')['sendMessage']
   const sendPrinterCommands: typeof import('../utils/printer')['sendPrinterCommands']
   const sendTcpCommands: typeof import('../utils/tcp')['sendTcpCommands']
