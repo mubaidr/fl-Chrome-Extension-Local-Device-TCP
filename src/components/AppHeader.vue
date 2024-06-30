@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <div>
     <header aria-label="Site Header">
@@ -12,7 +14,7 @@
             <img
               src="../assets/logo.png"
               class="w-8 h8 mr-4"
-            />
+            >
             <span class="text-xl font-bold">Printers</span>
           </RouterLink>
         </div>
@@ -25,7 +27,7 @@
             to="/popup/settings"
             class="flex content-center items-center text-sky-500"
           >
-            <i-mdi-cog class="mr-1"></i-mdi-cog>
+            <i-mdi-cog class="mr-1" />
             <span>Options</span>
           </RouterLink>
 
@@ -35,7 +37,5 @@
     </header>
   </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped></style>

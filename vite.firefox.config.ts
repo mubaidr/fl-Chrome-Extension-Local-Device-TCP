@@ -1,7 +1,7 @@
-import { crx } from '@crxjs/vite-plugin'
-import vue from '@vitejs/plugin-vue'
 import { dirname, relative } from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
+import { crx } from '@crxjs/vite-plugin'
+import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -47,8 +47,8 @@ export default defineConfig({
           baseRoute: 'popup',
         },
         {
-          dir: 'src/content-script/iframe/pages',
-          baseRoute: 'iframe',
+          dir: 'src/options/pages',
+          baseRoute: 'options',
         },
       ],
     }),
@@ -96,9 +96,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        iframe: 'src/content-script/iframe/index.html',
         popup: 'src/popup/index.html',
         setup: 'src/setup/index.html',
+        options: 'src/options/index.html',
       },
     },
     minify: 'terser',

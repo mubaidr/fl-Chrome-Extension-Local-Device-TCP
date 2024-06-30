@@ -1,4 +1,4 @@
-import type { PrinterObject } from '@/types'
+import type { PrinterObject, PrinterWebCommand } from '@/types'
 
 self.onerror = function (message, source, lineno, colno, error) {
   console.info(
@@ -24,10 +24,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           }
         }
       | {
-          type: 'COMMAND'
+          type: 'EXECUTE_COMMAND'
           data: {
-            commands: Array<string>
-            printerid: string
+            commands: Array<PrinterWebCommand>
           }
         }
 
@@ -46,31 +45,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return sendResponse()
     }
 
-    if (type === 'COMMAND') {
+    if (type === 'EXECUTE_COMMAND') {
       console.log('COMMAND received from content-script', data)
-      const { commands, printerid } = data
-      const printers = (await chrome.storage.local.get(
-        'printers'
-      )) as Array<PrinterObject> | null
+      const { commands } = data
 
-      if (!printers || printers.length === 0) {
+      if (!data || !commands || commands.length === 0) {
         return sendResponse()
       }
 
-      const printer = printers.find(
-        (printer) => printer.printerid === printerid
-      )
-
-      if (!printer) {
-        return sendResponse()
-      }
-
-      const result = await sendPrinterCommands(printer, commands)
+      const result = await processPrinterCommands(commands)
 
       return sendResponse(result)
     }
 
-    sendResponse()
+    return sendResponse()
   })()
 
   return true

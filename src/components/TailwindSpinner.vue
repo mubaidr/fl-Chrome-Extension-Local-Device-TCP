@@ -20,7 +20,9 @@
         />
       </svg>
     </div>
-    <div class="mt-2">Please wait...</div>
+    <div class="mt-2">
+      Please wait...
+    </div>
   </div>
 </template>
 
