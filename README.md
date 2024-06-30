@@ -37,6 +37,7 @@ This will save the printer configuration in the extension. The configuration wil
 
 ```typescript
 {
+  target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
   type: 'CONFIG',
   data: {
     printers: Array<PrinterObject>
@@ -50,6 +51,7 @@ This will execute the commands on the printers. The commands will be executed in
 
 ```typescript
 {
+  target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
   type: 'EXECUTE_COMMAND',
   data: {
     commands: Array<PrinterWebCommand>
@@ -119,6 +121,7 @@ You can send printer configurations to the extension using the `window.postMessa
 ```javascript
 window.postMessage(
   {
+    target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
     type: 'CONFIG',
     data: {
       printers: [
@@ -150,6 +153,7 @@ You can execute commands on the printers using the `window.postMessage` method:
 ```javascript
 window.postMessage(
   {
+    target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
     type: 'EXECUTE_COMMAND',
     data: {
       commands: [
