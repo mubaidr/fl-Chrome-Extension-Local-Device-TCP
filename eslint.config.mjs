@@ -21,6 +21,7 @@ export default antfu(
     ignores: [
       'node_modules',
       'dist',
+      '**/*.md',
       '**/*.js',
       '**/*.d.ts',
       'public',
