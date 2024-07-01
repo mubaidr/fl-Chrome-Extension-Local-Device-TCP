@@ -82,13 +82,13 @@ The background script will respond with results encapsulated in the following st
 }
 ```
 
-In case of status check call, the response will be:
+In case of `TEST`/ `CONFIG` call, the response will be:
 
 ```typescript
 {
   target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
   type: 'RESULT',
-  data: 'ok'
+  data: 'OK'
 }
 ```
 
@@ -145,7 +145,6 @@ window.postMessage(
   {
     target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
     type: 'TEST',
-    data: any, // can be skipped, this data will be returned as it is in the response
   },
   '*'
 )
@@ -213,7 +212,7 @@ window.postMessage(
 )
 ```
 
-Note: By default, a 5 sec timeout has been for commands execution.
+Note: By default, a 5 sec timeout has been set for commands execution.
 
 ### Receiving Results
 
@@ -225,7 +224,10 @@ window.addEventListener('message', (event) => {
     event.data.target === 'bookingfor-extension-v900' &&
     event.data.type === 'RESULT'
   ) {
-    console.log('Result:', event.data.data) // in case of status check, this will log 'Result: ok'
+    console.log('Result:', event.data.data) // in case of status check, this will log 'Result: 'OK''
+    // you need to handle responses here
+    // this is array of results for each command
+    // you can check if the command was successful or not based on "error" proeprty in the result
   }
 })
 ```

@@ -18,13 +18,13 @@ window.addEventListener('message', async (event) => {
     return
   }
 
-  const result = await chrome.runtime.sendMessage(event.data)
+  const { data } = await chrome.runtime.sendMessage(event.data)
 
   window.postMessage(
     {
       target: __NAME__,
       type: 'RESULT',
-      data: result,
+      data,
     },
     '*'
   )

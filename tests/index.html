@@ -112,8 +112,9 @@
           event.data.target === 'bookingfor-extension-v900' &&
           event.data.type === 'RESULT'
         ) {
-          console.log('Result:', event.data.data) // in case of status check, this will log 'Result: ok'
           consoleEl.textContent = JSON.stringify(event.data, null, 2)
+
+          console.log('Result:', event.data.data) // in case of status check, this will log 'Result: ok'
         }
       })
     </script>

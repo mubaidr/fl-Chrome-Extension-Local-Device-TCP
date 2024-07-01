@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const { type, data } = request as
       | {
           type: 'TEST'
-          data?: any
+          data: undefined
         }
       | {
           type: 'CONFIG'
@@ -31,25 +31,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
 
     if (type === 'TEST') {
-      return sendResponse(data || 'ok')
+      return sendResponse({
+        data: 'OK',
+      })
     }
 
     if (type === 'CONFIG') {
       await chrome.storage.local.set({ printers: data.printers })
 
-      return sendResponse('ok')
+      return sendResponse({
+        data: 'OK',
+      })
     }
 
     if (type === 'EXECUTE_COMMAND') {
       const { commands } = data
 
-      if (!data || !commands || commands.length === 0) {
-        return sendResponse(new Error('Invalid command'))
-      }
-
       const result = await processPrinterCommands(commands)
 
-      return sendResponse(result)
+      return sendResponse({
+        data: result,
+      })
     }
 
     return sendResponse()

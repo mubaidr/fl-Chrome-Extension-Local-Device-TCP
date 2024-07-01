@@ -26,7 +26,16 @@ export async function getPrinterById(
 export async function processPrinterCommands(
   commands: Array<PrinterWebCommand>
 ) {
-  const results: Array<Response | Error> = []
+  const results: Array<
+    | { data: any }
+    | {
+        error: {
+          name?: string
+          message: string
+          stack?: string
+        }
+      }
+  > = []
 
   for (let i = 0; i < commands.length; i++) {
     try {
@@ -34,7 +43,13 @@ export async function processPrinterCommands(
       const printer = await getPrinterById(printerid)
 
       if (!printer) {
-        results.push(new Error('Printer not found'))
+        results.push({
+          error: {
+            message: `Printer with ${printerid} not found`,
+            stack:
+              'Please make sure, printer config is set. You can set it using "CONFIG" command.',
+          },
+        })
         continue
       }
 
@@ -57,14 +72,30 @@ export async function processPrinterCommands(
       })
 
       if (response.status === 200) {
-        results.push(await response.json())
+        results.push({
+          data: await response.json(),
+        })
         continue
       }
 
-      results.push(new Error(response.statusText))
+      results.push({
+        error: {
+          message: response.statusText,
+          stack: response.url,
+        },
+      })
     } catch (err) {
       console.error(err)
-      results.push(err as Error)
+
+      const { name, message, stack } = err as Error
+
+      results.push({
+        error: {
+          name,
+          message,
+          stack,
+        },
+      })
     }
   }
 
