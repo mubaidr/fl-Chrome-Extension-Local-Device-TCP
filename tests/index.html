@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Test Document</title>
+  </head>
+  <body>
+    <div style="flex: auto; gap: 1em">
+      <button
+        type="button"
+        id="btnTest"
+      >
+        Test Extension
+      </button>
+      <button
+        type="button"
+        id="btnSendConfig"
+      >
+        Send Config
+      </button>
+      <button
+        type="button"
+        id="btnExecuteCommands"
+      >
+        Execute Commands
+      </button>
+    </div>
+
+    <div>
+      <pre id="console"></pre>
+    </div>
+
+    <script
+      defer
+      async
+    >
+      const consoleEl = document.getElementById('console')
+      const btnTest = document.getElementById('btnTest')
+      const btnSendConfig = document.getElementById('btnSendConfig')
+      const btnExecuteCommands = document.getElementById('btnExecuteCommands')
+
+      btnTest.addEventListener('click', () => {
+        window.postMessage(
+          {
+            target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+            type: 'TEST',
+          },
+          '*'
+        )
+      })
+
+      btnSendConfig.addEventListener('click', () => {
+        window.postMessage(
+          {
+            target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+            type: 'CONFIG',
+            data: {
+              printers: [
+                {
+                  printerid: '1',
+                  name: 'Printer 1',
+                  model: 'Epson',
+                  privateipaddress: '172.16.1.1',
+                  registrationnumber: '123',
+                },
+                {
+                  printerid: '2',
+                  name: 'Printer 2',
+                  model: 'Epson Oty',
+                  privateipaddress: '172.16.1.2',
+                  registrationnumber: '124',
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      })
+
+      btnExecuteCommands.addEventListener('click', () => {
+        window.postMessage(
+          {
+            target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+            type: 'EXECUTE_COMMAND',
+            data: {
+              commands: [
+                {
+                  printerid: '1',
+                  command: 'print',
+                  method: 'POST',
+                  path: '/print',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: {
+                    data: 'Hello, World!',
+                  },
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      })
+
+      window.addEventListener('message', (event) => {
+        if (
+          event.data.target === 'bookingfor-extension-v900' &&
+          event.data.type === 'RESULT'
+        ) {
+          console.log('Result:', event.data.data) // in case of status check, this will log 'Result: ok'
+          consoleEl.textContent = JSON.stringify(event.data, null, 2)
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -14,8 +14,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   ;(async () => {
     const { type, data } = request as
       | {
-          type: 'GET_PRINTERS'
-          data: null
+          type: 'TEST'
+          data?: any
         }
       | {
           type: 'CONFIG'
@@ -30,19 +30,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           }
         }
 
-    if (type === 'GET_PRINTERS') {
-      const printers = (await chrome.storage.local.get(
-        'printers'
-      )) as Array<PrinterObject> | null
-
-      return sendResponse(printers)
+    if (type === 'TEST') {
+      return sendResponse(data || 'ok')
     }
 
     if (type === 'CONFIG') {
       console.log('CONFIG received from content-script', data)
       await chrome.storage.local.set({ printers: data.printers })
 
-      return sendResponse()
+      return sendResponse('ok')
     }
 
     if (type === 'EXECUTE_COMMAND') {
@@ -50,7 +46,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const { commands } = data
 
       if (!data || !commands || commands.length === 0) {
-        return sendResponse()
+        return sendResponse(new Error('Invalid command'))
       }
 
       const result = await processPrinterCommands(commands)

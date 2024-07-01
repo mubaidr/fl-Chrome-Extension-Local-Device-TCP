@@ -5,6 +5,8 @@ export async function getAllPrinters() {
     'printers'
   )) as Array<PrinterObject> | null
 
+  console.log(printers)
+
   return printers
 }
 
@@ -33,6 +35,7 @@ export async function processPrinterCommands(
     const printer = await getPrinterById(printerid)
 
     if (!printer) {
+      results.push(new Error('Printer not found'))
       continue
     }
 

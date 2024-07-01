@@ -18,25 +18,14 @@ window.addEventListener('message', async (event) => {
     return
   }
 
-  if (target === __NAME__ && type === 'TEST') {
-    window.postMessage({
-      target: __NAME__,
-      type: 'RESULT',
-      data: 'ok',
-    })
-
-    return
-  }
-
   const result = await chrome.runtime.sendMessage(event.data)
 
-  if (!result) {
-    return
-  }
-
-  window.postMessage({
-    target: __NAME__,
-    type: 'RESULT',
-    data: result,
-  })
+  window.postMessage(
+    {
+      target: __NAME__,
+      type: 'RESULT',
+      data: result,
+    },
+    '*'
+  )
 })
