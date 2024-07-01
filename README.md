@@ -31,13 +31,24 @@ It listens for messages from the window object and forwards them to the backgrou
 
 ### Input Event Data
 
+#### Check Extension Status
+
+You can check if the extension is loaded and ready to receive messages by sending a test message:
+
+```typescript
+{
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+  type: 'TEST',
+}
+```
+
 #### Printer Configuration
 
 This will save the printer configuration in the extension. The configuration will be used to execute commands on the printers.
 
 ```typescript
 {
-  target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
   type: 'CONFIG',
   data: {
     printers: Array<PrinterObject>
@@ -51,7 +62,7 @@ This will execute the commands on the printers. The commands will be executed in
 
 ```typescript
 {
-  target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
   type: 'EXECUTE_COMMAND',
   data: {
     commands: Array<PrinterWebCommand>
@@ -65,8 +76,19 @@ The background script will respond with results encapsulated in the following st
 
 ```typescript
 {
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
   type: 'RESULT',
   data: any // result from the background script
+}
+```
+
+In case of status check call, the response will be:
+
+```typescript
+{
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+  type: 'RESULT',
+  data: 'ok'
 }
 ```
 
@@ -114,6 +136,20 @@ export interface PrinterWebCommand extends PrinterCommand {
 
 ## Example Usage
 
+### Check Extension Status
+
+You can check if the extension is loaded and ready to receive messages by sending a test message:
+
+```javascript
+window.postMessage(
+  {
+    target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+    type: 'TEST',
+  },
+  '*'
+)
+```
+
 ### Configuring Printers
 
 You can send printer configurations to the extension using the `window.postMessage` method from your webpage:
@@ -121,7 +157,7 @@ You can send printer configurations to the extension using the `window.postMessa
 ```javascript
 window.postMessage(
   {
-    target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
+    target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
     type: 'CONFIG',
     data: {
       printers: [
@@ -153,7 +189,7 @@ You can execute commands on the printers using the `window.postMessage` method:
 ```javascript
 window.postMessage(
   {
-    target: 'vite-vue3-chrome-extension-v3', // this must be the target name of the extension, currently name is "vite-vue3-chrome-extension-v3"
+    target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
     type: 'EXECUTE_COMMAND',
     data: {
       commands: [
@@ -174,6 +210,21 @@ window.postMessage(
   },
   '*'
 )
+```
+
+### Receiving Results
+
+The extension will respond with the results of the executed commands:
+
+```javascript
+window.addEventListener('message', (event) => {
+  if (
+    event.data.target === 'bookingfor-extension-v900' &&
+    event.data.type === 'RESULT'
+  ) {
+    console.log('Result:', event.data.data) // in case of status check, this will log 'Result: ok'
+  }
+})
 ```
 
 ## Additional Information

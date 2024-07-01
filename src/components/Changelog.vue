@@ -4,7 +4,6 @@ import { marked } from 'marked'
 const version = __VERSION__
 const changelog = __CHANGELOG__
 const gitCommit = __GIT_COMMIT__
-const gitURL = __GITHUB_URL__
 const commitURL = `${gitURL}/commit/${gitCommit}`
 </script>
 
