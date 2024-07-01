@@ -1,11 +1,9 @@
 import type { PrinterObject, PrinterWebCommand } from '@/types'
 
 export async function getAllPrinters() {
-  const printers = (await chrome.storage.local.get(
-    'printers'
-  )) as Array<PrinterObject> | null
-
-  console.log(printers)
+  const { printers } = (await chrome.storage.local.get('printers')) as {
+    printers: Array<PrinterObject> | null
+  }
 
   return printers
 }
@@ -31,19 +29,19 @@ export async function processPrinterCommands(
   const results: Array<Response | Error> = []
 
   for (let i = 0; i < commands.length; i++) {
-    const { printerid, command, headers, body, method, path } = commands[i]
-    const printer = await getPrinterById(printerid)
-
-    if (!printer) {
-      results.push(new Error('Printer not found'))
-      continue
-    }
-
-    const { privateipaddress, registrationnumber } = printer
-    const url = `http://${privateipaddress}/${path}`
-
     try {
-      const result = await fetch(url, {
+      const { printerid, command, headers, body, method, path } = commands[i]
+      const printer = await getPrinterById(printerid)
+
+      if (!printer) {
+        results.push(new Error('Printer not found'))
+        continue
+      }
+
+      const { privateipaddress, registrationnumber } = printer
+      const url = `http://${privateipaddress}/${path}`
+
+      const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -55,9 +53,15 @@ export async function processPrinterCommands(
           command,
           registrationnumber,
         }),
+        signal: AbortSignal.timeout(5000),
       })
 
-      results.push(result)
+      if (response.status === 200) {
+        results.push(await response.json())
+        continue
+      }
+
+      results.push(new Error(response.statusText))
     } catch (err) {
       console.error(err)
       results.push(err as Error)

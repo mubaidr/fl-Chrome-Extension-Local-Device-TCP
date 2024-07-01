@@ -145,6 +145,7 @@ window.postMessage(
   {
     target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
     type: 'TEST',
+    data: any, // can be skipped, this data will be returned as it is in the response
   },
   '*'
 )
@@ -211,6 +212,8 @@ window.postMessage(
   '*'
 )
 ```
+
+Note: By default, a 5 sec timeout has been for commands execution.
 
 ### Receiving Results
 

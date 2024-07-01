@@ -35,14 +35,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 
     if (type === 'CONFIG') {
-      console.log('CONFIG received from content-script', data)
       await chrome.storage.local.set({ printers: data.printers })
 
       return sendResponse('ok')
     }
 
     if (type === 'EXECUTE_COMMAND') {
-      console.log('COMMAND received from content-script', data)
       const { commands } = data
 
       if (!data || !commands || commands.length === 0) {
