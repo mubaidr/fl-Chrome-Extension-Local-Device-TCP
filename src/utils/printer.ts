@@ -40,7 +40,14 @@ export async function processPrinterCommands(
 
   for (let i = 0; i < commands.length; i++) {
     try {
-      const { printerid, command, headers, body, method, path } = commands[i]
+      const {
+        printerid,
+        command,
+        headers,
+        body = {},
+        method = 'POST',
+        path,
+      } = commands[i]
       const printer = await getPrinterById(printerid)
 
       if (!printer) {
@@ -58,24 +65,29 @@ export async function processPrinterCommands(
       const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
       const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
 
+      const formData = new FormData()
+
+      // formData.append('command', command)
+      // formData.append('registrationnumber', command)
+
+      Object.entries(body).forEach(([key, value]) => {
+        formData.append(key, value)
+      })
+
       const response = await fetch(url, {
-        method: method || 'POST',
+        method,
         headers: {
-          'Content-Type': 'application/json',
-          'X-Registration-Number': registrationnumber,
+          Accept: 'text/*',
+          // 'X-Registration-Number': registrationnumber,
           ...headers,
         },
-        body: JSON.stringify({
-          ...body,
-          command,
-          registrationnumber,
-        }),
+        body: formData,
         signal: AbortSignal.timeout(5000),
       })
 
       if (response.status === 200) {
         results.push({
-          data: await response.json(),
+          data: await response.text(),
         })
         continue
       }
