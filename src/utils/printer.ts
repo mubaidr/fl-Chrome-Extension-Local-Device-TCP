@@ -54,7 +54,8 @@ export async function processPrinterCommands(
       }
 
       const { privateipaddress, registrationnumber } = printer
-      const url = `http://${privateipaddress}/${path}`
+      const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
+      const url = `http://${privateipaddress}${normalizedPath}`
 
       const response = await fetch(url, {
         method,
