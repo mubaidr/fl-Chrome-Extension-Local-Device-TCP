@@ -100,11 +100,12 @@ Represents a printer with its details.
 
 ```typescript
 export interface PrinterObject {
-  printerid: string
+  printerid: string | number
   name: string
   model: string
   privateipaddress: string
   registrationnumber: string
+  ssl?: boolean // true or missing => https otherwsie http
 }
 ```
 
@@ -114,7 +115,7 @@ Represents a command to be executed on a printer.
 
 ```typescript
 export interface PrinterCommand {
-  printerid: string
+  printerid: string | number
   command: string
 }
 ```
@@ -125,7 +126,7 @@ Extends `PrinterCommand` with additional web-specific fields.
 
 ```typescript
 export interface PrinterWebCommand extends PrinterCommand {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' // default POST
   path: string
   headers?: Record<string, string>
   body?: {
@@ -167,6 +168,7 @@ window.postMessage(
           model: 'Epson',
           privateipaddress: '172.16.1.1',
           registrationnumber: '123',
+          ssl: true, // optional, default true
         },
         {
           printerid: '2',
@@ -174,6 +176,7 @@ window.postMessage(
           model: 'Epson Oty',
           privateipaddress: '172.16.1.2',
           registrationnumber: '124',
+          ssl: false,
         },
       ],
     },
@@ -196,7 +199,7 @@ window.postMessage(
         {
           printerid: '1',
           command: 'print',
-          method: 'POST',
+          method: 'POST', // optional, default POST
           path: '/print',
           headers: {
             'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ export async function getAllPrinters() {
 }
 
 export async function getPrinterById(
-  id: string,
+  id: string | number,
   printers: Array<PrinterObject> | null = null
 ) {
   if (!printers) {
@@ -20,7 +20,8 @@ export async function getPrinterById(
     return
   }
 
-  return printers.find((printer) => printer.printerid === id)
+  // eslint-disable-next-line eqeqeq
+  return printers.find((printer) => printer.printerid == id)
 }
 
 export async function processPrinterCommands(
@@ -53,12 +54,12 @@ export async function processPrinterCommands(
         continue
       }
 
-      const { privateipaddress, registrationnumber } = printer
+      const { privateipaddress, registrationnumber, ssl = true } = printer
       const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
-      const url = `http://${privateipaddress}${normalizedPath}`
+      const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
 
       const response = await fetch(url, {
-        method,
+        method: method || 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-Registration-Number': registrationnumber,
