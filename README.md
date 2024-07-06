@@ -81,13 +81,14 @@ The background script will respond with results encapsulated in the following st
   data: { // result from the background script
     results: Array<
     | {
+        printerid: string | number
         commandid: string | number
         data: any
       }
     | {
+        printerid: string | number
         commandid: string | number
         error: {
-          name?: string | number
           message: string
           stack?: string
         }
@@ -131,7 +132,7 @@ Represents a command to be executed on a printer.
 ```typescript
 export interface PrinterCommand {
   printerid: string | number
-  command: string
+  commandid: string | number
 }
 ```
 
@@ -141,7 +142,6 @@ Extends `PrinterCommand` with additional web-specific fields.
 
 ```typescript
 export interface PrinterWebCommand extends PrinterCommand {
-  commandid: string | number
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' // default POST
   path: string
   headers?: Record<string, string>
@@ -213,9 +213,8 @@ window.postMessage(
     data: {
       commands: [
         {
-          commandid: '1001',
           printerid: '1',
-          command: 'print',
+          commandid: '1001',
           method: 'POST', // optional, default POST
           path: '/print',
           headers: {
@@ -247,9 +246,9 @@ window.addEventListener('message', (event) => {
     console.log('Result:', event.data.data) // in case of status check, this will log 'Result: 'OK''
     // you need to handle responses here
     // this is array of results for each command
-    // you can check if the command was successful or not based on "error" proeprty in the result
     // if error is present, it means command failed
     // commandid is the id you sent in the command
+    // printerid is the id of the printer on which command was executed
   }
 })
 ```

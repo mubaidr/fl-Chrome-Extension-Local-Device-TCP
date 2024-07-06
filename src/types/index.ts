@@ -8,14 +8,11 @@ export interface PrinterObject {
 }
 
 export interface PrinterCommand {
-  // id: string
-  // source?: string
   printerid: string | number
-  command: string
+  commandid: string | number
 }
 
 export interface PrinterWebCommand extends PrinterCommand {
-  commandid: string | number
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   path: string
   headers?: Record<string, string>

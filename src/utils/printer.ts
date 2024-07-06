@@ -29,13 +29,14 @@ export async function processPrinterCommands(
 ) {
   const results: Array<
     | {
+        printerid: string | number
         commandid: string | number
         data: any
       }
     | {
+        printerid: string | number
         commandid: string | number
         error: {
-          name?: string | number
           message: string
           stack?: string
         }
@@ -43,47 +44,44 @@ export async function processPrinterCommands(
   > = []
 
   for (let i = 0; i < commands.length; i++) {
-    try {
-      const {
+    const {
+      printerid,
+      commandid,
+      headers,
+      body = {},
+      method = 'POST',
+      path,
+    } = commands[i]
+    const printer = await getPrinterById(printerid)
+
+    if (!printer) {
+      results.push({
         printerid,
         commandid,
-        headers,
-        body = {},
-        method = 'POST',
-        path,
-      } = commands[i]
-      const printer = await getPrinterById(printerid)
-
-      if (!printer) {
-        results.push({
-          commandid,
-          error: {
-            message: `Printer with ${printerid} not found`,
-            stack:
-              'Please make sure, printer config is set. You can set it using "CONFIG" command.',
-          },
-        })
-        continue
-      }
-
-      const { privateipaddress, ssl = true } = printer
-      const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
-      const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
-
-      const formData = new FormData()
-
-      // formData.append('command', command)
-      // formData.append('registrationnumber', command)
-
-      Object.entries(body).forEach(([key, value]) => {
-        formData.append(key, value)
+        error: {
+          message: `Printer with ${printerid} not found`,
+          stack:
+            'Please make sure, printer config is set. You can set it using "CONFIG" command.',
+        },
       })
+      continue
+    }
 
+    const { privateipaddress, ssl = true } = printer
+    const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
+    const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
+
+    const formData = new FormData()
+
+    Object.entries(body).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+
+    try {
       const response = await fetch(url, {
         method,
         headers: {
           Accept: 'text/*',
-          // 'X-Registration-Number': registrationnumber,
           ...headers,
         },
         body: formData,
@@ -92,6 +90,7 @@ export async function processPrinterCommands(
 
       if (response.status === 200) {
         results.push({
+          printerid,
           commandid,
           data: await response.text(),
         })
@@ -99,6 +98,7 @@ export async function processPrinterCommands(
       }
 
       results.push({
+        printerid,
         commandid,
         error: {
           message: response.statusText,
@@ -108,12 +108,12 @@ export async function processPrinterCommands(
     } catch (err) {
       console.error(err)
 
-      const { name, message, stack } = err as Error
+      const { message, stack } = err as Error
 
       results.push({
-        commandid: 'general failure',
+        printerid,
+        commandid,
         error: {
-          name,
           message,
           stack,
         },
