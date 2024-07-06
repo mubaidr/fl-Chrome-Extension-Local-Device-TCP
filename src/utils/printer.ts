@@ -28,10 +28,14 @@ export async function processPrinterCommands(
   commands: Array<PrinterWebCommand>
 ) {
   const results: Array<
-    | { data: any }
     | {
+        commandid: string | number
+        data: any
+      }
+    | {
+        commandid: string | number
         error: {
-          name?: string
+          name?: string | number
           message: string
           stack?: string
         }
@@ -42,7 +46,7 @@ export async function processPrinterCommands(
     try {
       const {
         printerid,
-        command,
+        commandid,
         headers,
         body = {},
         method = 'POST',
@@ -52,6 +56,7 @@ export async function processPrinterCommands(
 
       if (!printer) {
         results.push({
+          commandid,
           error: {
             message: `Printer with ${printerid} not found`,
             stack:
@@ -61,7 +66,7 @@ export async function processPrinterCommands(
         continue
       }
 
-      const { privateipaddress, registrationnumber, ssl = true } = printer
+      const { privateipaddress, ssl = true } = printer
       const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
       const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
 
@@ -87,12 +92,14 @@ export async function processPrinterCommands(
 
       if (response.status === 200) {
         results.push({
+          commandid,
           data: await response.text(),
         })
         continue
       }
 
       results.push({
+        commandid,
         error: {
           message: response.statusText,
           stack: response.url,
@@ -104,6 +111,7 @@ export async function processPrinterCommands(
       const { name, message, stack } = err as Error
 
       results.push({
+        commandid: 'general failure',
         error: {
           name,
           message,

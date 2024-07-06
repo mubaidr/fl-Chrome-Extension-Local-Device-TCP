@@ -78,7 +78,22 @@ The background script will respond with results encapsulated in the following st
 {
   target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
   type: 'RESULT',
-  data: any // result from the background script
+  data: { // result from the background script
+    results: Array<
+    | {
+        commandid: string | number
+        data: any
+      }
+    | {
+        commandid: string | number
+        error: {
+          name?: string | number
+          message: string
+          stack?: string
+        }
+      }
+  >
+  }
 }
 ```
 
@@ -126,6 +141,7 @@ Extends `PrinterCommand` with additional web-specific fields.
 
 ```typescript
 export interface PrinterWebCommand extends PrinterCommand {
+  commandid: string | number
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' // default POST
   path: string
   headers?: Record<string, string>
@@ -197,6 +213,7 @@ window.postMessage(
     data: {
       commands: [
         {
+          commandid: '1001',
           printerid: '1',
           command: 'print',
           method: 'POST', // optional, default POST
@@ -231,6 +248,8 @@ window.addEventListener('message', (event) => {
     // you need to handle responses here
     // this is array of results for each command
     // you can check if the command was successful or not based on "error" proeprty in the result
+    // if error is present, it means command failed
+    // commandid is the id you sent in the command
   }
 })
 ```

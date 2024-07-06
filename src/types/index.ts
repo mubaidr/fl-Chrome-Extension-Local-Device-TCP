@@ -15,6 +15,7 @@ export interface PrinterCommand {
 }
 
 export interface PrinterWebCommand extends PrinterCommand {
+  commandid: string | number
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   path: string
   headers?: Record<string, string>
