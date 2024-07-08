@@ -63,7 +63,7 @@ This will execute the commands on the printers. The commands will be executed in
 ```typescript
 {
   target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
-  type: 'EXECUTE_COMMAND',
+  type: 'COMMAND',
   data: {
     commands: Array<PrinterWebCommand>
   }
@@ -77,7 +77,7 @@ The background script will respond with results encapsulated in the following st
 ```typescript
 {
   target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
-  type: 'RESULT',
+  type: 'COMMAND_RESULT',
   data: { // result from the background script
     results: Array<
     | {
@@ -103,7 +103,7 @@ In case of `TEST`/ `CONFIG` call, the response will be:
 ```typescript
 {
   target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
-  type: 'RESULT',
+  type: 'TEST_RESULT' | 'CONFIG_RESULT',
   data: 'OK'
 }
 ```
@@ -209,7 +209,7 @@ You can execute commands on the printers using the `window.postMessage` method:
 window.postMessage(
   {
     target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
-    type: 'EXECUTE_COMMAND',
+    type: 'COMMAND',
     data: {
       commands: [
         {
@@ -241,7 +241,7 @@ The extension will respond with the results of the executed commands:
 window.addEventListener('message', (event) => {
   if (
     event.data.target === 'bookingfor-extension-v900' &&
-    event.data.type === 'RESULT'
+    event.data.type.includes('RESULT')
   ) {
     console.log('Result:', event.data.data) // in case of status check, this will log 'Result: 'OK''
     // you need to handle responses here

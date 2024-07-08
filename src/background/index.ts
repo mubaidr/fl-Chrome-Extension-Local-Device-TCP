@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           }
         }
       | {
-          type: 'EXECUTE_COMMAND'
+          type: 'COMMAND'
           data: {
             commands: Array<PrinterWebCommand>
           }
@@ -44,7 +44,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       })
     }
 
-    if (type === 'EXECUTE_COMMAND') {
+    if (type === 'COMMAND') {
       const { commands } = data
 
       const result = await processPrinterCommands(commands)

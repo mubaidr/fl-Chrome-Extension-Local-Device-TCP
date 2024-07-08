@@ -14,7 +14,7 @@ window.addEventListener('message', async (event) => {
     type: string
   }
 
-  if (target !== __NAME__ || type === 'RESULT') {
+  if (target !== __NAME__ || type.includes('RESULT')) {
     return
   }
 
@@ -23,7 +23,7 @@ window.addEventListener('message', async (event) => {
   window.postMessage(
     {
       target: __NAME__,
-      type: 'RESULT',
+      type: `${type}_RESULT`,
       data,
     },
     '*'
