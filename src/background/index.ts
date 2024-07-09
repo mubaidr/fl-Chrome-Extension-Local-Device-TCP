@@ -1,4 +1,5 @@
 import type { PrinterObject, PrinterWebCommand } from '@/types'
+import { processPrinterCommands } from 'src/utils/printer'
 
 self.onerror = function (message, source, lineno, colno, error) {
   console.info(

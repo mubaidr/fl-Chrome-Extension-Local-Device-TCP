@@ -23,9 +23,9 @@ export default defineManifest(async (env) => ({
   //     strict_min_version: '112.0',
   //   },
   // },
-  action: {
-    default_popup: 'src/popup/index.html',
-  },
+  // action: {
+  //   default_popup: 'src/popup/index.html',
+  // },
   background: {
     scripts: ['src/background/index.ts'],
     type: 'module',
@@ -35,13 +35,17 @@ export default defineManifest(async (env) => ({
     {
       all_frames: true,
       js: ['src/content-script/index.ts'],
-      matches: ['*://*/*'],
+      matches: [
+        'http://localhost/*',
+        'http://127.0.0.1/*',
+        'https://*.bookingfor.com/*',
+      ],
       run_at: 'document_end',
     },
   ],
   // offline_enabled: false,
-  host_permissions: [],
-  permissions: ['storage', 'tabs', 'background', 'activeTab', 'scripting'],
+  // host_permissions: [],
+  permissions: ['storage', 'tabs', 'activeTab'],
   web_accessible_resources: [
     {
       matches: ['*://*/*'],

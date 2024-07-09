@@ -48,7 +48,7 @@ export async function processPrinterCommands(
       printerid,
       commandid,
       headers,
-      body = {},
+      body,
       method = 'POST',
       path,
     } = commands[i]
@@ -71,20 +71,11 @@ export async function processPrinterCommands(
     const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
     const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
 
-    const formData = new FormData()
-
-    Object.entries(body).forEach(([key, value]) => {
-      formData.append(key, value)
-    })
-
     try {
       const response = await fetch(url, {
         method,
-        headers: {
-          Accept: 'text/*',
-          ...headers,
-        },
-        body: formData,
+        headers,
+        body,
         signal: AbortSignal.timeout(5000),
       })
 

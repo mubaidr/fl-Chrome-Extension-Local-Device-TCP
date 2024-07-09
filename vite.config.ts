@@ -56,7 +56,7 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', 'vue-router', 'vue/macros', '@vueuse/core'],
       dts: 'src/types/auto-imports.d.ts',
-      dirs: ['src/composables/', 'src/stores/', 'src/utils/'],
+      dirs: ['src/composables/'],
     }),
 
     // https://github.com/antfu/unplugin-vue-components
@@ -95,11 +95,11 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      input: {
-        popup: 'src/popup/index.html',
-        setup: 'src/setup/index.html',
-        options: 'src/options/index.html',
-      },
+      // input: {
+      //   popup: 'src/popup/index.html',
+      //   setup: 'src/setup/index.html',
+      //   options: 'src/options/index.html',
+      // },
     },
     minify: 'terser',
     terserOptions: {},

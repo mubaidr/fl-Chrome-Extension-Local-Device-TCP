@@ -1,6 +1,49 @@
 # System Documentation
 
-This documentation provides an overview of the input/output interfaces of our system, focusing on interactions between the background and content scripts. It aims to help users understand how to interact with the system, what data to send, and what responses to expect.
+This documentation provides an overview of the build process, test process, publish and input/output interfaces of our system, focusing on interactions between the background and content scripts. It aims to help users understand how to interact with the system, what data to send, and what responses to expect.
+
+## How to Build
+
+### Prerequisites
+
+- Node.js 20+
+- npm 8+
+
+### Installation
+
+To install the dependencies, execute the following commands in your terminal:
+
+```bash
+npm install
+```
+
+### Build Process
+
+To build the project, execute the following commands in your terminal:
+
+```bash
+# for both chrome and firefox
+npm run build
+
+# for chrome
+npm run build:chrome
+
+# for firefox
+npm run build:firefox
+```
+
+This will generate the compiled files in the `dist` folder. The compiled files can be found in the:
+
+- `dist/chrome` folder for Chrome, Edge, Opera, and other Chromium-based browsers.
+- `dist/firefox` for Firefox
+
+### Running the Project in Development Mode
+
+To run the project in development mode, execute the following commands in your terminal:
+
+```bash
+npm run dev
+```
 
 ## How to Test the Extension
 
@@ -249,6 +292,34 @@ window.addEventListener('message', (event) => {
 })
 ```
 
----
+## How to Publish
+
+### Chrome
+
+1. Zip the `dist/chrome` folder.
+2. Go to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
+3. Click on the "Add new item" button.
+4. Upload the zip file.
+5. Fill in the required details.
+6. Click on the "Publish" button.
+
+### Firefox
+
+1. Zip the `dist/firefox` folder.
+2. Go to the [Firefox Add-ons Developer Hub](https://addons.mozilla.org/en-US/developers/).
+3. Click on the "Submit a New Add-on" button.
+4. Upload the zip file.
+5. Fill in the required details.
+6. Click on the "Submit Version" button.
+
+### Other Chromium Based Browsers
+
+1. Zip the `dist/chrome` folder.
+2. Go to the browser's extension store.
+3. Upload the zip file.
+4. Fill in the required details.
+5. Click on the "Publish" button.
+
+## Support
 
 This concludes the documentation. Should you have any further questions or require additional assistance, please do not hesitate to contact.
