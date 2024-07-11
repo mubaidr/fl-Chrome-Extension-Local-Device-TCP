@@ -21,9 +21,9 @@ export default defineManifest(async (env) => ({
   manifest_version: 3,
   minimum_chrome_version: '116',
   // key: '',
-  // action: {
-  //   default_popup: 'src/popup/index.html',
-  // },
+  action: {
+    default_popup: 'src/popup/index.html',
+  },
   background: {
     service_worker: 'src/background/index.ts',
     type: 'module',

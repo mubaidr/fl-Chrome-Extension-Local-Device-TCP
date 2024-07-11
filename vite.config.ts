@@ -1,7 +1,7 @@
-import { dirname, relative } from 'node:path'
-import { URL, fileURLToPath } from 'node:url'
 import { crx } from '@crxjs/vite-plugin'
 import vue from '@vitejs/plugin-vue'
+import { dirname, relative } from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -95,11 +95,9 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      // input: {
-      //   popup: 'src/popup/index.html',
-      //   setup: 'src/setup/index.html',
-      //   options: 'src/options/index.html',
-      // },
+      input: {
+        popup: 'src/popup/index.html',
+      },
     },
     minify: 'terser',
     terserOptions: {},

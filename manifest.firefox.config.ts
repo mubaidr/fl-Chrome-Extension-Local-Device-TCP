@@ -23,9 +23,9 @@ export default defineManifest(async (env) => ({
   //     strict_min_version: '112.0',
   //   },
   // },
-  // action: {
-  //   default_popup: 'src/popup/index.html',
-  // },
+  action: {
+    default_popup: 'src/popup/index.html',
+  },
   background: {
     scripts: ['src/background/index.ts'],
     type: 'module',

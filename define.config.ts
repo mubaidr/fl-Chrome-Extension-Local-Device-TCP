@@ -1,10 +1,4 @@
-import { spawnSync } from 'node:child_process'
 import packageJson from './package.json'
-
-// Get the current git commit hash.
-const gitCommit = spawnSync('git', ['rev-parse', '--short', 'HEAD'])
-  .stdout.toString()
-  .trim()
 
 const jsn = (value: string) => JSON.stringify(value)
 
@@ -17,5 +11,4 @@ export const defineViteConfig = {
   __VERSION__: jsn(packageJson.version),
   __NAME__: jsn(packageJson.name),
   __DISPLAY_NAME__: jsn(packageJson.displayName),
-  __GIT_COMMIT__: jsn(gitCommit),
 }

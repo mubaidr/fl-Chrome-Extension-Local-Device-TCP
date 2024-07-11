@@ -85,6 +85,17 @@ You can check if the extension is loaded and ready to receive messages by sendin
 }
 ```
 
+#### Check Config Status
+
+You can check if the extension is loaded and ready to receive messages by sending a test message:
+
+```typescript
+{
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+  type: 'STATUS',
+}
+```
+
 #### Printer Configuration
 
 This will save the printer configuration in the extension. The configuration will be used to execute commands on the printers.
@@ -151,6 +162,16 @@ In case of `TEST`/ `CONFIG` call, the response will be:
 }
 ```
 
+In case of `STATUS` call, the response will be:
+
+```typescript
+{
+  target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+  type: 'STATUS_RESULT',
+  data: Array<PrinterObject>
+}
+```
+
 ## Types
 
 ### PrinterObject
@@ -203,6 +224,20 @@ window.postMessage(
   {
     target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
     type: 'TEST',
+  },
+  '*'
+)
+```
+
+### Check Config Status
+
+You can check if the extension is loaded and ready to receive messages by sending a test message:
+
+```javascript
+window.postMessage(
+  {
+    target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+    type: 'STATUS',
   },
   '*'
 )
@@ -291,6 +326,29 @@ window.addEventListener('message', (event) => {
   }
 })
 ```
+
+## How to Modify
+
+### Flow
+
+The extension follows a simple flow:
+
+1. The content script listens for messages from the webpage.
+2. The content script forwards the messages to the background script.
+3. The background script processes the messages and sends back the results.
+4. The content script receives the results and forwards them to the webpage.
+
+### Background Script
+
+The background script is responsible for managing the extension's state and handling messages from the content script. You can modify the background script by editing the `src/background/index.ts` file.
+
+### Content Script
+
+The content script is responsible for relaying messages from the webpage to the background script. You can modify the content script by editing the `src/content/index.ts` file.
+
+### Popup Script
+
+The popup script is responsible for managing the extension's popup window. You can modify the popup script by editing the `src/popup/pages/index.vue` for the popup window content.
 
 ## How to Publish
 

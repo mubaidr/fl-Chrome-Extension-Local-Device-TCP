@@ -16,12 +16,21 @@
       >
         Test Extension
       </button>
+
+      <button
+        type="button"
+        id="btnStatus"
+      >
+        Check Status
+      </button>
+
       <button
         type="button"
         id="btnSendConfig"
       >
         Send Config
       </button>
+
       <button
         type="button"
         id="btnExecuteCommands"
@@ -40,8 +49,19 @@
     >
       const consoleEl = document.getElementById('console')
       const btnTest = document.getElementById('btnTest')
+      const btnStatus = document.getElementById('btnStatus')
       const btnSendConfig = document.getElementById('btnSendConfig')
       const btnExecuteCommands = document.getElementById('btnExecuteCommands')
+
+      btnStatus.addEventListener('click', () => {
+        window.postMessage(
+          {
+            target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+            type: 'STATUS',
+          },
+          '*'
+        )
+      })
 
       btnTest.addEventListener('click', () => {
         window.postMessage(

@@ -30,6 +30,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             commands: Array<PrinterWebCommand>
           }
         }
+      | {
+          type: 'STATUS'
+          data: undefined
+        }
 
     if (type === 'TEST') {
       return sendResponse({
@@ -52,6 +56,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       return sendResponse({
         data: result,
+      })
+    }
+
+    if (type === 'STATUS') {
+      const { printers } = await chrome.storage.local.get('printers')
+
+      return sendResponse({
+        data: printers,
       })
     }
 

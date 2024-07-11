@@ -95,11 +95,9 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      // input: {
-      //   popup: 'src/popup/index.html',
-      //   setup: 'src/setup/index.html',
-      //   options: 'src/options/index.html',
-      // },
+      input: {
+        popup: 'src/popup/index.html',
+      },
     },
     minify: 'terser',
     terserOptions: {},
