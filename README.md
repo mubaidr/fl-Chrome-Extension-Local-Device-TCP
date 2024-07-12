@@ -8,13 +8,15 @@ This documentation provides an overview of the build process, test process, publ
 
 - Node.js 20+
 - npm 8+
+- pnpm 9+
 
 ### Installation
 
 To install the dependencies, execute the following commands in your terminal:
 
 ```bash
-npm install
+npm install -g pnpm
+pnpm i
 ```
 
 ### Build Process
@@ -23,13 +25,13 @@ To build the project, execute the following commands in your terminal:
 
 ```bash
 # for both chrome and firefox
-npm run build
+pnpm build
 
 # for chrome
-npm run build:chrome
+pnpm build:chrome
 
 # for firefox
-npm run build:firefox
+pnpm build:firefox
 ```
 
 This will generate the compiled files in the `dist` folder. The compiled files can be found in the:
@@ -42,7 +44,7 @@ This will generate the compiled files in the `dist` folder. The compiled files c
 To run the project in development mode, execute the following commands in your terminal:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ## How to Test the Extension
@@ -52,8 +54,8 @@ npm run dev
 To build the extension, execute the following commands in your terminal:
 
 ```bash
-npm install
-npm run build
+pnpm install
+pnpm run build
 ```
 
 ### Running the Extension
