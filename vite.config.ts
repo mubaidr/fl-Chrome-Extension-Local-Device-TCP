@@ -101,6 +101,7 @@ export default defineConfig({
     },
     minify: 'terser',
     terserOptions: {},
+    manifest: false,
     outDir: 'dist/chrome',
   },
   server: {

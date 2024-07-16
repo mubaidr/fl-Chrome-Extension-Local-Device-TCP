@@ -17,12 +17,11 @@ export default defineManifest(async (env) => ({
   // semver is OK in "version_name"
   // version_name: version,
   manifest_version: 3,
-  // browser_specific_settings: {
-  //   gecko: {
-  //     id: '{}',
-  //     strict_min_version: '112.0',
-  //   },
-  // },
+  browser_specific_settings: {
+    gecko: {
+      id: '{2e4f5834-d742-411d-bfe1-49fc4433aaa1}',
+    },
+  },
   action: {
     default_popup: 'src/popup/index.html',
   },
@@ -45,7 +44,7 @@ export default defineManifest(async (env) => ({
   ],
   // offline_enabled: false,
   // host_permissions: [],
-  permissions: ['storage', ],
+  permissions: ['storage'],
   web_accessible_resources: [
     {
       matches: ['*://*/*'],
