@@ -1,6 +1,7 @@
 import { crx } from '@crxjs/vite-plugin'
 import vue from '@vitejs/plugin-vue'
-import { dirname, relative } from 'node:path'
+import { unlinkSync } from 'node:fs'
+import { dirname, relative, resolve } from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -92,15 +93,30 @@ export default defineConfig({
         )
       },
     },
+
+    {
+      name: 'remove-manifest',
+      closeBundle() {
+        const manifestPath = resolve(
+          __dirname,
+          'dist/chrome/.vite/manifest.json'
+        )
+        try {
+          unlinkSync(manifestPath)
+          console.log('Manifest file removed.')
+        } catch (error) {
+          console.error('Error removing manifest file:', error)
+        }
+      },
+    },
   ],
   build: {
+    emptyOutDir: true,
     rollupOptions: {
       input: {
         popup: 'src/popup/index.html',
       },
     },
-    minify: 'terser',
-    terserOptions: {},
     manifest: false,
     outDir: 'dist/chrome',
   },

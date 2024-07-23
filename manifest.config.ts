@@ -41,7 +41,7 @@ export default defineManifest(async (env) => ({
     },
   ],
   offline_enabled: false,
-  // host_permissions: [],
+  host_permissions: ['*://*/*'],
   permissions: ['storage', 'background'],
   web_accessible_resources: [
     {
