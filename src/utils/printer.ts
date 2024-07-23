@@ -67,9 +67,9 @@ export async function processPrinterCommands(
       continue
     }
 
-    const { privateipaddress, ssl = true } = printer
+    const { privateipaddress, ssl } = printer
     const normalizedPath = path.charAt(0) === '/' ? path : `/${path}`
-    const url = `http${ssl ? 's' : ''}://${privateipaddress}${normalizedPath}`
+    const url = `${ssl === false ? 'http' : 'https'}://${privateipaddress}${normalizedPath}`
 
     try {
       const response = await fetch(url, {

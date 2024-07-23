@@ -33,9 +33,16 @@
 
       <button
         type="button"
+        id="btnExecuteSSLCommands"
+      >
+        Execute SSL Command
+      </button>
+
+      <button
+        type="button"
         id="btnExecuteCommands"
       >
-        Execute Commands
+        Execute Command
       </button>
     </div>
 
@@ -51,6 +58,9 @@
       const btnTest = document.getElementById('btnTest')
       const btnStatus = document.getElementById('btnStatus')
       const btnSendConfig = document.getElementById('btnSendConfig')
+      const btnExecuteSSLCommands = document.getElementById(
+        'btnExecuteSSLCommands'
+      )
       const btnExecuteCommands = document.getElementById('btnExecuteCommands')
 
       btnStatus.addEventListener('click', () => {
@@ -86,6 +96,7 @@
                   model: 'Epson',
                   privateipaddress: '172.16.1.1',
                   registrationnumber: '123',
+                  ssl: true,
                 },
                 {
                   printerid: '2',
@@ -93,6 +104,33 @@
                   model: 'Epson Oty',
                   privateipaddress: '172.16.1.2',
                   registrationnumber: '124',
+                  ssl: false,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      })
+
+      btnExecuteSSLCommands.addEventListener('click', () => {
+        window.postMessage(
+          {
+            target: 'bookingfor-extension-v900', // this must be the target name of the extension, currently name is "bookingfor-extension-v900"
+            type: 'COMMAND',
+            data: {
+              commands: [
+                {
+                  commandid: '1',
+                  printerid: '1',
+                  method: 'POST',
+                  path: '/print',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: {
+                    data: 'Hello, World!',
+                  },
                 },
               ],
             },
@@ -109,8 +147,8 @@
             data: {
               commands: [
                 {
-                  commandid: '1',
-                  printerid: '1',
+                  commandid: '2',
+                  printerid: '2',
                   method: 'POST',
                   path: '/print',
                   headers: {
