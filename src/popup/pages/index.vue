@@ -12,6 +12,7 @@ const init = async () => {
 
     printers.value = data
   } catch (err) {
+    console.log(err)
     printers.value = null
   } finally {
     pending.value = false
