@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PrinterObject } from '@/types'
+import type { PrinterObject } from '@/types'
 
 const pending = ref(true)
 const printers = ref<PrinterObject[] | null>([])
@@ -25,7 +25,7 @@ init()
   <div>
     <template v-if="pending">
       <div class="block text-center">
-        <span class="loading loading-ring loading-lg"></span>
+        <span class="loading loading-ring loading-lg" />
       </div>
     </template>
     <template v-else-if="!printers || printers.length === 0">

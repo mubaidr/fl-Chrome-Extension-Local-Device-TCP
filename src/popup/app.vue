@@ -5,7 +5,7 @@
     aria-label="Site Header"
     class="bg-slate-300 px-2 py-4"
   >
-    <img src="/src/assets/bookingfor121x22.png" />
+    <img src="/src/assets/bookingfor121x22.png">
   </header>
 
   <div class="p-6">
