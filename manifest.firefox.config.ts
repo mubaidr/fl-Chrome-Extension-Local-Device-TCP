@@ -57,4 +57,8 @@ export default defineManifest(async (env) => ({
     32: 'src/assets/logo.png',
     128: 'src/assets/logo.png',
   },
+  content_security_policy: {
+    extension_pages: "default-src 'self'",
+    sandbox: "default-src 'self'",
+  },
 }))
