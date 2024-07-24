@@ -1,24 +1,4 @@
 {
-  "name": "bookingfor-extension-v900",
-  "displayName": "bookingfor-extension-v900",
-  "type": "module",
-  "version": "0.0.1",
-  "private": true,
-  "description": "bookingfor-extension-v900",
-  "scripts": {
-    "build": "npm run build:chrome && npm run build:firefox",
-    "build:chrome": "vite build",
-    "build:firefox": "vite build -c vite.firefox.config.js",
-    "dev": "concurrently \"npm run dev:chrome\" \"npm run dev:firefox\"",
-    "dev:chrome": "vite",
-    "dev:firefox": "vite build --mode development --watch -c vite.firefox.config.js",
-    "dev:server": "tsx server/index.ts",
-    "format": "prettier --write .",
-    "lint": "eslint . --fix",
-    "lint:manifest": "web-ext lint --pretty",
-    "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit"
-  },
   "dependencies": {
     "marked": "^13.0.2",
     "pinia": "^2.1.7",
@@ -26,6 +6,7 @@
     "vue-router": "^4.4.0",
     "webextension-polyfill": "^0.12.0"
   },
+  "description": "bookingfor-extension-v900",
   "devDependencies": {
     "@antfu/eslint-config": "^2.23.2",
     "@crxjs/vite-plugin": "^2.0.0-beta.25",
@@ -65,6 +46,11 @@
     "web-ext": "^8.2.0",
     "webext-bridge": "^6.0.1"
   },
+  "displayName": "bookingfor-extension-v900",
+  "name": "bookingfor-extension-v900",
+  "overrides": {
+    "@crxjs/vite-plugin": "$@crxjs/vite-plugin"
+  },
   "pnpm": {
     "overrides": {},
     "peerDependencyRules": {
@@ -76,7 +62,21 @@
       "ignoreMissing": []
     }
   },
-  "overrides": {
-    "@crxjs/vite-plugin": "$@crxjs/vite-plugin"
-  }
+  "private": true,
+  "scripts": {
+    "build": "npm run build:chrome && npm run build:firefox",
+    "build:chrome": "vite build",
+    "build:firefox": "vite build -c vite.firefox.config.js",
+    "dev": "concurrently \"npm run dev:chrome\" \"npm run dev:firefox\"",
+    "dev:chrome": "vite",
+    "dev:firefox": "vite build --watch -c vite.firefox.config.js",
+    "dev:server": "tsx server/index.ts",
+    "format": "prettier --write .",
+    "lint": "eslint . --fix",
+    "lint:manifest": "web-ext lint --pretty",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "type": "module",
+  "version": "0.0.1"
 }

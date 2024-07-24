@@ -28,7 +28,6 @@ export default defineManifest(async (env) => ({
   background: {
     scripts: ['src/background/index.ts'],
     type: 'module',
-    persistent: false,
   },
   content_scripts: [
     {
@@ -58,7 +57,6 @@ export default defineManifest(async (env) => ({
     128: 'src/assets/logo.png',
   },
   content_security_policy: {
-    extension_pages: "default-src 'self'",
-    sandbox: "default-src 'self'",
+    extension_pages: "script-src 'self'; object-src 'self'",
   },
 }))
